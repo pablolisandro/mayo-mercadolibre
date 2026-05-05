@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estilo AQ — Panel CRM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F5F0;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:20px}
+
+/* ── TOKENS ── */
+:root{
+  --bg-primary:#FFFFFF;
+  --bg-secondary:#F7F7F4;
+  --bg-tertiary:#EFEFEA;
+  --text-primary:#1A1A1A;
+  --text-secondary:#6B6B6B;
+  --text-tertiary:#A0A0A0;
+  --border:#E2E2DC;
+  --border-strong:#C8C8C0;
+  --green:#1D9E75;--green-bg:#E1F5EE;--green-text:#0A5C42;
+  --red:#E24B4A;--red-bg:#FCEBEB;--red-text:#7A1F1F;
+  --amber:#BA7517;--amber-bg:#FAEEDA;--amber-text:#5C3800;
+  --blue:#185FA5;--blue-bg:#E6F1FB;--blue-text:#0A3566;
+  --purple-bg:#EEEDFE;--purple-text:#3C3489;
+  --coral-bg:#FAECE7;--coral-text:#6B2510;
+  --ml-yellow:#FFE600;--ml-dark:#2D3277;
+}
+
+.shell{width:100%;max-width:1060px;display:flex;flex-direction:column;height:700px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px;box-shadow:0 2px 16px rgba(0,0,0,.08)}
+
+/* ── TOPNAV ── */
+.topnav{background:var(--bg-primary);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;gap:0;height:46px;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:8px;margin-right:20px}
+.brand-badge{background:var(--ml-yellow);color:var(--ml-dark);font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
+.brand-name{font-size:14px;font-weight:600;color:var(--text-primary)}
+.view-toggle{display:flex;gap:2px;background:var(--bg-secondary);border-radius:6px;padding:3px}
+.vt-btn{padding:5px 14px;border-radius:4px;border:none;background:transparent;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-secondary);font-family:inherit;transition:all .15s}
+.vt-btn.active{background:var(--bg-primary);color:var(--text-primary);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.topnav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.ml-pill{background:var(--ml-yellow);color:var(--ml-dark);font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px}
+.topnav-date{font-size:11px;color:var(--text-secondary)}
+
+/* ── BODY ── */
+.body{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:196px;background:var(--bg-primary);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.nav-sec{padding:10px 12px 3px;font-size:10px;color:var(--text-tertiary);letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.ni{display:flex;align-items:center;gap:7px;padding:8px 12px;cursor:pointer;color:var(--text-secondary);border-left:2px solid transparent;transition:all .12s;user-select:none}
+.ni:hover{background:var(--bg-secondary);color:var(--text-primary)}
+.ni.active{background:#FFFBCC;color:var(--ml-dark);border-left-color:var(--ml-yellow);font-weight:600}
+.ni-icon{font-size:14px;width:16px;text-align:center;flex-shrink:0}
+.ni-label{font-size:12.5px}
+.ni-badge{margin-left:auto;color:#fff;font-size:10px;font-weight:600;border-radius:8px;padding:1px 6px}
+.ni-badge{background:var(--red)}
+.ni-badge.amber{background:var(--amber)}
+.ni-badge.blue{background:var(--blue)}
+.sb-footer{margin-top:auto;padding:10px 12px;border-top:1px solid var(--border)}
+.agent-row{display:flex;align-items:center;gap:7px}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.agent-name{font-size:12px;font-weight:600;color:var(--text-primary)}
+.agent-status{font-size:11px;color:var(--green)}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;overflow-x:hidden}
+.panel{display:none;padding:14px 16px}
+.panel.active{display:block}
+
+/* ── METRICS ── */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
+.metrics-grid.cols3{grid-template-columns:repeat(3,1fr)}
+.mc{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.mc-label{font-size:11px;color:var(--text-secondary);margin-bottom:3px;font-weight:500}
+.mc-val{font-size:20px;font-weight:700;color:var(--text-primary);line-height:1.2}
+.mc-sub{font-size:11px;margin-top:3px;font-weight:500}
+.g{color:var(--green)}.r{color:var(--red)}.a{color:var(--amber)}.b{color:var(--blue)}
+
+.sec-title{font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{background:var(--bg-secondary);font-size:11px;font-weight:600;color:var(--text-secondary);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
+td{font-size:12px;padding:8px 10px;color:var(--text-primary);border-bottom:1px solid var(--border);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg-secondary)}
+
+/* ── PILLS ── */
+.pill{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+.p-ok{background:var(--green-bg);color:var(--green-text)}
+.p-low{background:var(--amber-bg);color:var(--amber-text)}
+.p-out{background:var(--red-bg);color:var(--red-text)}
+.p-hot{background:var(--ml-yellow);color:var(--ml-dark)}
+.p-blue{background:var(--blue-bg);color:var(--blue-text)}
+.p-q{background:#FBEAF0;color:#6B1F3E}
+
+/* ── BAR ── */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.bar-name{font-size:12px;color:var(--text-primary);width:160px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;height:7px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;border-radius:4px;background:var(--ml-yellow)}
+.bar-fill.b2{background:var(--green)}
+.bar-val{font-size:12px;font-weight:600;color:var(--text-primary);width:55px;text-align:right;flex-shrink:0}
+
+/* ── CARD ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.card{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.card-title{font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:10px}
+.cat-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)}
+.cat-row:last-child{border-bottom:none}
+.cat-name{font-size:12px;color:var(--text-primary)}
+.cat-val{font-size:12px;font-weight:700;color:var(--text-primary)}
+.cat-sub{font-size:11px;color:var(--text-secondary)}
+
+/* ── ALERTS ── */
+.alert-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:8px;margin-bottom:7px}
+.alert-item.urg{background:var(--red-bg);border:1px solid #F7C1C1}
+.alert-item.warn{background:var(--amber-bg);border:1px solid #FAC775}
+.alert-item.info{background:var(--blue-bg);border:1px solid #B5D4F4}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.dot-r{background:var(--red)}.dot-a{background:var(--amber)}.dot-b{background:var(--blue)}
+.alert-text{font-size:12px;color:var(--text-primary);font-weight:600}
+.alert-sub{font-size:11px;color:var(--text-secondary);margin-top:1px}
+
+/* ── QUESTIONS ── */
+.q-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:11px 13px;margin-bottom:9px}
+.q-item.urg{border-left:3px solid var(--red)}
+.q-hd{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.q-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.q-buyer{font-size:12px;font-weight:600;color:var(--text-primary)}
+.q-prod{font-size:11px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-time{font-size:11px;color:var(--text-tertiary);flex-shrink:0;margin-left:auto}
+.q-txt{font-size:12px;color:var(--text-primary);line-height:1.6;margin-bottom:7px}
+.q-ia{font-size:11px;color:var(--blue-text);background:var(--blue-bg);border-radius:5px;padding:6px 9px;line-height:1.5;margin-bottom:7px;border:1px solid #B5D4F4}
+.q-ia strong{font-weight:700}
+.q-actions{display:flex;gap:6px}
+.qb{font-size:11px;padding:4px 12px;border-radius:5px;border:1px solid var(--border-strong);background:var(--bg-primary);color:var(--text-primary);cursor:pointer;font-family:inherit;font-weight:500;transition:background .12s}
+.qb.pr{background:var(--ml-yellow);border-color:var(--ml-yellow);color:var(--ml-dark);font-weight:700}
+.qb:hover{background:var(--bg-secondary)}
+
+/* ── WHATSAPP ── */
+.wsp-wrap{display:flex;height:520px}
+.wsp-list{width:210px;border-right:1px solid var(--border);background:var(--bg-primary);overflow-y:auto;flex-shrink:0}
+.wsp-lh{padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;justify-content:space-between}
+.wsp-unread{background:#25D366;color:#fff;font-size:10px;font-weight:700;border-radius:8px;padding:1px 5px}
+.wc{display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
+.wc:hover{background:var(--bg-secondary)}
+.wc.active{background:#F0FFF8}
+.wc-info{flex:1;overflow:hidden}
+.wc-name{font-size:12px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-last{font-size:11px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-time{font-size:10px;color:var(--text-tertiary);flex-shrink:0}
+.wsp-chat{flex:1;display:flex;flex-direction:column;background:#ECE5DD}
+.wch-hd{background:var(--bg-primary);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px}
+.wch-name{font-size:13px;font-weight:600;color:var(--text-primary)}
+.wch-st{font-size:11px;color:#25D366;font-weight:500}
+.wch-tag{margin-left:auto;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.tag-bot{background:var(--green-bg);color:var(--green-text)}
+.tag-hum{background:var(--amber-bg);color:var(--amber-text)}
+.wsp-msgs{flex:1;padding:12px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.msg{display:flex;flex-direction:column;max-width:75%;gap:2px}
+.msg.in{align-self:flex-start}.msg.out{align-self:flex-end}
+.mb{padding:7px 10px;border-radius:10px;font-size:12px;line-height:1.6;color:var(--text-primary)}
+.msg.in .mb{background:#FFFFFF;border-radius:2px 10px 10px 10px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.msg.out .mb{background:#DCF8C6;color:#0F2010;border-radius:10px 10px 2px 10px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.mm{font-size:10px;color:#888;padding:0 4px}
+.ms{font-size:10px;color:var(--text-secondary);padding:0 4px;font-weight:600}
+.bot-lbl{font-size:10px;color:var(--green-text);background:var(--green-bg);padding:1px 5px;border-radius:4px;margin-left:3px}
+.hum-lbl{font-size:10px;color:var(--amber-text);background:var(--amber-bg);padding:1px 5px;border-radius:4px;margin-left:3px}
+.tkbar{background:var(--amber-bg);border-top:1px solid #FAC775;padding:8px 14px;display:flex;align-items:center;gap:10px}
+.tk-txt{font-size:11px;color:var(--amber-text);flex:1;font-weight:500}
+.tk-btn{font-size:11px;padding:4px 12px;border-radius:5px;border:1px solid var(--amber);background:#fff;color:var(--amber-text);cursor:pointer;font-family:inherit;font-weight:600}
+.tk-btn:hover{background:var(--amber-bg)}
+.wsp-bar{background:var(--bg-primary);border-top:1px solid var(--border);padding:9px 14px;display:flex;align-items:center;gap:8px}
+.wsp-inp{flex:1;background:var(--bg-secondary);border:1px solid var(--border);border-radius:20px;padding:7px 13px;font-size:12px;color:var(--text-primary);outline:none;font-family:inherit}
+.wsp-inp:focus{border-color:var(--border-strong)}
+.wsend{width:32px;height:32px;background:#25D366;border-radius:50%;border:none;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* ── RECLAMOS ── */
+.reclamo-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:9px;display:flex;align-items:flex-start;gap:12px}
+.reclamo-item.urg{border-left:3px solid var(--red)}
+.reclamo-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.reclamo-title{font-size:12px;font-weight:700;color:var(--text-primary);margin-bottom:3px}
+.reclamo-detail{font-size:11px;color:var(--text-secondary);margin-bottom:5px}
+.reclamo-deadline{font-size:11px;font-weight:700}
+
+/* ── BANDEJA PRIORITARIOS ── */
+.pri-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:10px 13px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
+.pri-item.urg{border-left:3px solid var(--red)}
+.pri-item.warn{border-left:3px solid var(--amber)}
+.pri-item.info{border-left:3px solid var(--blue)}
+.pri-title{font-size:12px;font-weight:600;color:var(--text-primary)}
+.pri-sub{font-size:11px;color:var(--text-secondary);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- TOPNAV -->
+  <div class="topnav">
+    <div class="brand">
+      <div class="brand-badge">ML Platinum</div>
+      <span class="brand-name">Estilo AQ</span>
+    </div>
+    <div class="view-toggle">
+      <button class="vt-btn active" onclick="switchView('adrian',this)">Vista Adrián</button>
+      <button class="vt-btn" onclick="switchView('atencion',this)">Atención al cliente</button>
+    </div>
+    <div class="topnav-right">
+      <span class="topnav-date">Martes 5 mayo 2026</span>
+      <span class="ml-pill">MercadoLíder Platinum</span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- SIDEBAR ADRIÁN -->
+    <div class="sidebar" id="sb-adrian">
+      <div class="nav-sec">Resumen</div>
+      <div class="ni active" data-view="adrian" data-panel="a-dashboard" onclick="switchPanel(this)"><span class="ni-icon">📊</span><span class="ni-label">Dashboard</span></div>
+      <div class="ni" data-view="adrian" data-panel="a-ventas" onclick="switchPanel(this)"><span class="ni-icon">💰</span><span class="ni-label">Ventas</span></div>
+      <div class="nav-sec">Publicaciones</div>
+      <div class="ni" data-view="adrian" data-panel="a-ranking" onclick="switchPanel(this)"><span class="ni-icon">🏆</span><span class="ni-label">Ranking ventas</span></div>
+      <div class="ni" data-view="adrian" data-panel="a-stock" onclick="switchPanel(this)"><span class="ni-icon">⚠️</span><span class="ni-label">Alertas de stock</span><span class="ni-badge amber">7</span></div>
+      <div class="ni" data-view="adrian" data-panel="a-catalogo" onclick="switchPanel(this)"><span class="ni-icon">📦</span><span class="ni-label">Catálogo ML</span></div>
+      <div class="nav-sec">Operativo</div>
+      <div class="ni" data-view="adrian" data-panel="a-atencion" onclick="switchPanel(this)"><span class="ni-icon">👥</span><span class="ni-label">Atención</span><span class="ni-badge blue">8</span></div>
+      <div class="sb-footer">
+        <div class="agent-row">
+          <div class="av" style="background:#FFFBCC;color:var(--ml-dark)">AQ</div>
+          <div><div class="agent-name">Adrián</div><div class="agent-status">● Dueño</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR ATENCIÓN -->
+    <div class="sidebar" id="sb-atencion" style="display:none">
+      <div class="nav-sec">Mi trabajo</div>
+      <div class="ni active" data-view="atencion" data-panel="c-dashboard" onclick="switchPanel(this)"><span class="ni-icon">📋</span><span class="ni-label">Mi bandeja</span></div>
+      <div class="ni" data-view="atencion" data-panel="c-preguntas" onclick="switchPanel(this)"><span class="ni-icon">❓</span><span class="ni-label">Preguntas ML</span><span class="ni-badge">5</span></div>
+      <div class="ni" data-view="atencion" data-panel="c-whatsapp" onclick="switchPanel(this)"><span class="ni-icon">💬</span><span class="ni-label">WhatsApp</span><span class="ni-badge">3</span></div>
+      <div class="ni" data-view="atencion" data-panel="c-reclamos" onclick="switchPanel(this)"><span class="ni-icon">🔴</span><span class="ni-label">Reclamos</span><span class="ni-badge amber">2</span></div>
+      <div class="sb-footer">
+        <div class="agent-row">
+          <div class="av" style="background:var(--purple-bg);color:var(--purple-text)">LA</div>
+          <div><div class="agent-name">Laura A.</div><div class="agent-status">● En línea</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main" id="main-content">
+
+      <!-- ===== ADRIÁN: DASHBOARD ===== -->
+      <div class="panel active" id="panel-a-dashboard">
+        <div class="metrics-grid">
+          <div class="mc"><div class="mc-label">Ventas hoy</div><div class="mc-val">$184.200</div><div class="mc-sub g">↑ +23% vs ayer</div></div>
+          <div class="mc"><div class="mc-label">Ventas del mes</div><div class="mc-val">$2.810.500</div><div class="mc-sub g">↑ +18% vs abril</div></div>
+          <div class="mc"><div class="mc-label">Pedidos del mes</div><div class="mc-val">214</div><div class="mc-sub g">↑ +12%</div></div>
+          <div class="mc"><div class="mc-label">Reputación ML</div><div class="mc-val" style="color:#D4A000">★ 4.9</div><div class="mc-sub g">Platinum activo</div></div>
+        </div>
+        <div class="metrics-grid">
+          <div class="mc"><div class="mc-label">Ticket promedio</div><div class="mc-val">$13.134</div><div class="mc-sub g">↑ +5%</div></div>
+          <div class="mc"><div class="mc-label">Cancelaciones</div><div class="mc-val">3</div><div class="mc-sub a">1.3% tasa</div></div>
+          <div class="mc"><div class="mc-label">Publicaciones activas</div><div class="mc-val">184</div><div class="mc-sub b">12 pausadas</div></div>
+          <div class="mc"><div class="mc-label">Stock crítico</div><div class="mc-val">7</div><div class="mc-sub r">Reposición urgente</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Ventas por categoría — mayo</div>
+            <div class="bar-row"><span class="bar-name">Herramientas</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-val">$987k</span></div>
+            <div class="bar-row"><span class="bar-name">Muebles</span><div class="bar-track"><div class="bar-fill" style="width:74%"></div></div><span class="bar-val">$831k</span></div>
+            <div class="bar-row"><span class="bar-name">Capilares</span><div class="bar-track"><div class="bar-fill" style="width:52%"></div></div><span class="bar-val">$583k</span></div>
+            <div class="bar-row"><span class="bar-name">Accesorios</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-val">$315k</span></div>
+            <div class="bar-row"><span class="bar-name">Barbería</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-val">$224k</span></div>
+            <div class="bar-row" style="margin-bottom:0"><span class="bar-name">Otros</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div><span class="bar-val">$134k</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Alertas del negocio</div>
+            <div class="alert-item urg"><div class="alert-dot dot-r"></div><div><div class="alert-text">Wahl Clipper Magic Clip — stock 2 u.</div><div class="alert-sub">Más vendida del mes, reposición urgente</div></div></div>
+            <div class="alert-item warn"><div class="alert-dot dot-a"></div><div><div class="alert-text">Reclamo #2488842 vence hoy</div><div class="alert-sub">Silla Verona — producto dañado</div></div></div>
+            <div class="alert-item warn"><div class="alert-dot dot-a"></div><div><div class="alert-text">Tijeras Jaguar Silver — stock 3 u.</div><div class="alert-sub">Alta rotación en barbería</div></div></div>
+            <div class="alert-item info"><div class="alert-dot dot-b"></div><div><div class="alert-text">5 preguntas sin responder</div><div class="alert-sub">Equipo de atención al cliente</div></div></div>
+            <div class="alert-item info" style="margin-bottom:0"><div class="alert-dot dot-b"></div><div><div class="alert-text">Parlux 385 — 28 visitas hoy sin venta</div><div class="alert-sub">Revisar precio vs competencia</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ADRIÁN: VENTAS ===== -->
+      <div class="panel" id="panel-a-ventas">
+        <div class="metrics-grid">
+          <div class="mc"><div class="mc-label">Enero</div><div class="mc-val">$1.820k</div><div class="mc-sub g">+8%</div></div>
+          <div class="mc"><div class="mc-label">Febrero</div><div class="mc-val">$2.104k</div><div class="mc-sub g">+16%</div></div>
+          <div class="mc"><div class="mc-label">Marzo</div><div class="mc-val">$2.380k</div><div class="mc-sub g">+13%</div></div>
+          <div class="mc"><div class="mc-label">Abril</div><div class="mc-val">$2.381k</div><div class="mc-sub a">+0.05%</div></div>
+        </div>
+        <div class="sec-title">Evolución mensual 2026</div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="bar-row" style="margin-bottom:9px"><span class="bar-name">Enero</span><div class="bar-track"><div class="bar-fill b2" style="width:56%"></div></div><span class="bar-val">$1.820k</span></div>
+          <div class="bar-row" style="margin-bottom:9px"><span class="bar-name">Febrero</span><div class="bar-track"><div class="bar-fill b2" style="width:65%"></div></div><span class="bar-val">$2.104k</span></div>
+          <div class="bar-row" style="margin-bottom:9px"><span class="bar-name">Marzo</span><div class="bar-track"><div class="bar-fill b2" style="width:73%"></div></div><span class="bar-val">$2.380k</span></div>
+          <div class="bar-row" style="margin-bottom:9px"><span class="bar-name">Abril</span><div class="bar-track"><div class="bar-fill b2" style="width:73%"></div></div><span class="bar-val">$2.381k</span></div>
+          <div class="bar-row" style="margin-bottom:0"><span class="bar-name">Mayo (al día)</span><div class="bar-track"><div class="bar-fill" style="width:87%"></div></div><span class="bar-val">$2.810k</span></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Medios de pago (mayo)</div>
+            <div class="cat-row"><span class="cat-name">Tarjeta crédito</span><span class="cat-val">62%</span></div>
+            <div class="cat-row"><span class="cat-name">Cuotas 6 sin interés</span><span class="cat-val">21%</span></div>
+            <div class="cat-row"><span class="cat-name">Débito</span><span class="cat-val">11%</span></div>
+            <div class="cat-row"><span class="cat-name">Mercado Pago saldo</span><span class="cat-val">6%</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Distribución geográfica</div>
+            <div class="cat-row"><span class="cat-name">GBA Sur</span><span class="cat-val">28%</span></div>
+            <div class="cat-row"><span class="cat-name">CABA</span><span class="cat-val">24%</span></div>
+            <div class="cat-row"><span class="cat-name">GBA Norte / Oeste</span><span class="cat-val">19%</span></div>
+            <div class="cat-row"><span class="cat-name">Interior del país</span><span class="cat-val">29%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ADRIÁN: RANKING ===== -->
+      <div class="panel" id="panel-a-ranking">
+        <div class="sec-title">Top publicaciones — unidades vendidas este mes</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:28px">#</th><th>Producto</th><th style="width:90px">Categoría</th><th style="width:72px">Precio</th><th style="width:60px">Ventas</th><th style="width:78px">Ingresos</th><th style="width:80px">Estado</th></tr></thead>
+            <tbody>
+              <tr><td style="font-weight:700;color:var(--ml-dark)">1</td><td>Wahl Clipper Magic Clip Inalámbrica</td><td>Herramientas</td><td>$89.900</td><td style="font-weight:700">47</td><td class="g" style="font-weight:700">$4.225k</td><td><span class="pill p-hot">⚡ Top</span></td></tr>
+              <tr><td>2</td><td>Sillón Barbero Milan Negro</td><td>Muebles</td><td>$1.190.000</td><td>18</td><td class="g" style="font-weight:700">$21.420k</td><td><span class="pill p-ok">OK</span></td></tr>
+              <tr><td>3</td><td>Tijeras Jaguar Silver Line 5.5"</td><td>Herramientas</td><td>$142.000</td><td>31</td><td class="g" style="font-weight:700">$4.402k</td><td><span class="pill p-low">Stock bajo</span></td></tr>
+              <tr><td>4</td><td>Secador Parlux 385 Power Negro</td><td>Herramientas</td><td>$95.500</td><td>24</td><td class="g" style="font-weight:700">$2.292k</td><td><span class="pill p-ok">OK</span></td></tr>
+              <tr><td>5</td><td>Silla Peluquería Verona Blanca</td><td>Muebles</td><td>$680.000</td><td>14</td><td class="g" style="font-weight:700">$9.520k</td><td><span class="pill p-ok">OK</span></td></tr>
+              <tr><td>6</td><td>Maletin Barbero White Rose</td><td>Accesorios</td><td>$151.000</td><td>22</td><td class="g" style="font-weight:700">$3.322k</td><td><span class="pill p-ok">OK</span></td></tr>
+              <tr><td>7</td><td>Cabeza de práctica 50% Natural 60cm</td><td>Accesorios</td><td>$62.990</td><td>38</td><td class="g" style="font-weight:700">$2.394k</td><td><span class="pill p-hot">⚡ Top</span></td></tr>
+              <tr><td>8</td><td>Ampollas Argán Fidelité x12</td><td>Capilares</td><td>$18.700</td><td>65</td><td class="g" style="font-weight:700">$1.216k</td><td><span class="pill p-ok">OK</span></td></tr>
+              <tr><td>9</td><td>Primont Máscara Hidratante 500g</td><td>Capilares</td><td>$12.400</td><td>58</td><td class="g" style="font-weight:700">$719k</td><td><span class="pill p-low">Stock bajo</span></td></tr>
+              <tr><td>10</td><td>Sillón Barbero Positano Reclinable</td><td>Muebles</td><td>$1.804.000</td><td>7</td><td class="g" style="font-weight:700">$12.628k</td><td><span class="pill p-ok">OK</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== ADRIÁN: STOCK ===== -->
+      <div class="panel" id="panel-a-stock">
+        <div class="metrics-grid cols3">
+          <div class="mc"><div class="mc-label">Sin stock (pausadas)</div><div class="mc-val">4</div><div class="mc-sub r">Pérdida de ventas activa</div></div>
+          <div class="mc"><div class="mc-label">Stock crítico (1-5 u.)</div><div class="mc-val">7</div><div class="mc-sub a">Reabastecer esta semana</div></div>
+          <div class="mc"><div class="mc-label">Stock bajo (6-15 u.)</div><div class="mc-val">12</div><div class="mc-sub b">Monitorear</div></div>
+        </div>
+        <div class="sec-title">Sin stock — publicaciones pausadas automáticamente por ML</div>
+        <div class="table-wrap" style="margin-bottom:14px">
+          <table>
+            <thead><tr><th>Producto</th><th style="width:90px">Categoría</th><th style="width:72px">Precio</th><th style="width:82px">Ventas/mes</th><th style="width:88px">Estado</th></tr></thead>
+            <tbody>
+              <tr><td>Rizador Remington Pro Barrel 25mm</td><td>Herramientas</td><td>$74.500</td><td>11</td><td><span class="pill p-out">Sin stock</span></td></tr>
+              <tr><td>Plancha Babyliss Pro Titanium</td><td>Herramientas</td><td>$128.000</td><td>8</td><td><span class="pill p-out">Sin stock</span></td></tr>
+              <tr><td>Cabina UV/LED 48W Profesional</td><td>Uñas</td><td>$89.000</td><td>6</td><td><span class="pill p-out">Sin stock</span></td></tr>
+              <tr><td>Lavacabezas Mueble Completo</td><td>Muebles</td><td>$380.000</td><td>3</td><td><span class="pill p-out">Sin stock</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sec-title">Stock crítico — reponer urgente</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Producto</th><th style="width:90px">Categoría</th><th style="width:60px">Stock</th><th style="width:82px">Ventas/día</th><th style="width:100px">Días restantes</th></tr></thead>
+            <tbody>
+              <tr><td>Wahl Clipper Magic Clip Inalámbrica</td><td>Herramientas</td><td class="r" style="font-weight:700">2 u.</td><td>1.6</td><td class="r" style="font-weight:700">~1 día</td></tr>
+              <tr><td>Tijeras Jaguar Silver Line 5.5"</td><td>Herramientas</td><td class="r" style="font-weight:700">3 u.</td><td>1.0</td><td class="a" style="font-weight:700">~3 días</td></tr>
+              <tr><td>Primont Máscara Hidratante 500g</td><td>Capilares</td><td class="a" style="font-weight:700">4 u.</td><td>1.9</td><td class="a" style="font-weight:700">~2 días</td></tr>
+              <tr><td>Esponja Fijación Rizos Pro</td><td>Barbería</td><td class="a" style="font-weight:700">5 u.</td><td>0.8</td><td class="g" style="font-weight:700">~6 días</td></tr>
+              <tr><td>Capa Peinadora Satén Negro x5</td><td>Accesorios</td><td class="a" style="font-weight:700">4 u.</td><td>0.6</td><td class="g" style="font-weight:700">~7 días</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== ADRIÁN: CATÁLOGO ===== -->
+      <div class="panel" id="panel-a-catalogo">
+        <div class="metrics-grid">
+          <div class="mc"><div class="mc-label">Total publicaciones</div><div class="mc-val">184</div><div class="mc-sub g">172 activas</div></div>
+          <div class="mc"><div class="mc-label">Pausadas</div><div class="mc-val">12</div><div class="mc-sub r">4 sin stock</div></div>
+          <div class="mc"><div class="mc-label">Visitas hoy</div><div class="mc-val">1.847</div><div class="mc-sub b">+14% vs ayer</div></div>
+          <div class="mc"><div class="mc-label">Conversión</div><div class="mc-val">9.8%</div><div class="mc-sub g">ML prom: 7.2%</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Publicaciones por categoría</div>
+            <div class="cat-row"><span class="cat-name">Herramientas</span><span><span class="cat-val">52</span> <span class="cat-sub">publs.</span></span></div>
+            <div class="cat-row"><span class="cat-name">Muebles</span><span><span class="cat-val">38</span> <span class="cat-sub">publs.</span></span></div>
+            <div class="cat-row"><span class="cat-name">Accesorios</span><span><span class="cat-val">29</span> <span class="cat-sub">publs.</span></span></div>
+            <div class="cat-row"><span class="cat-name">Capilares</span><span><span class="cat-val">24</span> <span class="cat-sub">publs.</span></span></div>
+            <div class="cat-row"><span class="cat-name">Barbería</span><span><span class="cat-val">18</span> <span class="cat-sub">publs.</span></span></div>
+            <div class="cat-row"><span class="cat-name">Estética y Spa</span><span><span class="cat-val">12</span> <span class="cat-sub">publs.</span></span></div>
+            <div class="cat-row"><span class="cat-name">Maquillaje</span><span><span class="cat-val">6</span> <span class="cat-sub">publs.</span></span></div>
+            <div class="cat-row"><span class="cat-name">Uñas / Pestañas</span><span><span class="cat-val">5</span> <span class="cat-sub">publs.</span></span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Publicaciones con visitas sin conversión hoy</div>
+            <div class="cat-row"><div><div class="cat-name">Parlux 385 Power Negro</div><div class="cat-sub">28 visitas · $95.500</div></div><span class="pill p-q">Revisar precio</span></div>
+            <div class="cat-row"><div><div class="cat-name">Tijeras Jaguar 6.0" Pro</div><div class="cat-sub">19 visitas · $189.000</div></div><span class="pill p-low">Mejorar fotos</span></div>
+            <div class="cat-row"><div><div class="cat-name">Mesa Manicura Bari</div><div class="cat-sub">15 visitas · $159.200</div></div><span class="pill p-low">Revisar precio</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ADRIÁN: RESUMEN ATENCIÓN ===== -->
+      <div class="panel" id="panel-a-atencion">
+        <div class="metrics-grid">
+          <div class="mc"><div class="mc-label">Preguntas ML sin resp.</div><div class="mc-val">5</div><div class="mc-sub r">Máx. 2h restantes</div></div>
+          <div class="mc"><div class="mc-label">Chats WhatsApp activos</div><div class="mc-val">3</div><div class="mc-sub b">2 con bot, 1 humano</div></div>
+          <div class="mc"><div class="mc-label">Reclamos abiertos</div><div class="mc-val">2</div><div class="mc-sub r">1 vence hoy</div></div>
+          <div class="mc"><div class="mc-label">Tiempo prom. respuesta</div><div class="mc-val">47 min</div><div class="mc-sub g">Bajo el límite ML</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Equipo atención al cliente</div>
+            <div class="cat-row"><span class="cat-name">Laura A.</span><span class="pill p-ok">● En línea</span></div>
+            <div class="cat-row"><span class="cat-name">Carla M.</span><span class="pill p-blue">● En línea</span></div>
+            <div class="cat-row" style="margin-top:8px;border-top:none"><span class="cat-sub">Preguntas respondidas hoy: 18</span></div>
+            <div class="cat-row" style="border-top:none"><span class="cat-sub">Tasa respuesta en tiempo: 94%</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Motivos de consulta frecuentes</div>
+            <div class="cat-row"><span class="cat-name">Envíos y plazos</span><span class="cat-val">38%</span></div>
+            <div class="cat-row"><span class="cat-name">Factura A</span><span class="cat-val">24%</span></div>
+            <div class="cat-row"><span class="cat-name">Disponibilidad / retiro</span><span class="cat-val">18%</span></div>
+            <div class="cat-row"><span class="cat-name">Detalles del producto</span><span class="cat-val">14%</span></div>
+            <div class="cat-row"><span class="cat-name">Otros</span><span class="cat-val">6%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ATENCIÓN: BANDEJA ===== -->
+      <div class="panel" id="panel-c-dashboard">
+        <div class="metrics-grid">
+          <div class="mc"><div class="mc-label">Preguntas ML</div><div class="mc-val">5</div><div class="mc-sub r">Sin responder</div></div>
+          <div class="mc"><div class="mc-label">WhatsApp</div><div class="mc-val">3</div><div class="mc-sub b">Chats abiertos</div></div>
+          <div class="mc"><div class="mc-label">Reclamos</div><div class="mc-val">2</div><div class="mc-sub r">1 urgente hoy</div></div>
+          <div class="mc"><div class="mc-label">Respondidas hoy</div><div class="mc-val">18</div><div class="mc-sub g">↑ buen ritmo</div></div>
+        </div>
+        <div class="sec-title">Prioritarios ahora</div>
+        <div class="pri-item urg"><div class="alert-dot dot-r" style="margin-top:4px;flex-shrink:0"></div><div><div class="pri-title">Reclamo #2488842 — Silla Verona dañada</div><div class="pri-sub">Vence hoy 23:59 hs — responder urgente</div></div></div>
+        <div class="pri-item warn"><div class="alert-dot dot-a" style="margin-top:4px;flex-shrink:0"></div><div><div class="pri-title">Gonzalo M. preguntó hace 45 min — Wahl Clipper</div><div class="pri-sub">¿La máquina trae cargador de pared?</div></div></div>
+        <div class="pri-item warn"><div class="alert-dot dot-a" style="margin-top:4px;flex-shrink:0"></div><div><div class="pri-title">Sofía R. preguntó hace 1h 10min — Tijeras Jaguar</div><div class="pri-sub">Solicita factura A para empresa</div></div></div>
+        <div class="pri-item info"><div class="alert-dot dot-b" style="margin-top:4px;flex-shrink:0"></div><div><div class="pri-title">Juan L. en WhatsApp — consulta envío Rosario</div><div class="pri-sub">Bot respondiendo, podés monitorear</div></div></div>
+      </div>
+
+      <!-- ===== ATENCIÓN: PREGUNTAS ===== -->
+      <div class="panel" id="panel-c-preguntas">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:13px;font-weight:600;color:var(--text-primary);flex:1">Preguntas sin responder <span style="font-weight:400;color:var(--text-secondary)">(para el equipo de atención al cliente)</span></span>
+          <span style="font-size:11px;color:var(--green-text);background:var(--green-bg);padding:3px 9px;border-radius:5px;font-weight:600;border:1px solid #9FE1CB">IA lista para sugerir respuestas</span>
+        </div>
+        <div class="q-item urg">
+          <div class="q-hd"><div class="q-av" style="background:var(--blue-bg);color:var(--blue-text)">GM</div><div style="flex:1;overflow:hidden"><div class="q-buyer">Gonzalo M.</div><div class="q-prod">Wahl Clipper Magic Clip Inalámbrica</div></div><span class="q-time">hace 45 min</span></div>
+          <div class="q-txt">¿La máquina trae el cargador de pared o solo USB? Necesito saber antes de comprar, la necesito para el salón.</div>
+          <div class="q-ia"><strong>Sugerencia IA:</strong> Sí, incluye cargador de pared + cable USB-C. La batería dura hasta 90 minutos de uso continuo. ¡Perfecta para uso profesional en salón!</div>
+          <div class="q-actions"><button class="qb pr" onclick="this.textContent='✓ Enviada';this.style.background='#1D9E75';this.style.borderColor='#1D9E75';this.style.color='#fff'">Enviar respuesta</button><button class="qb">Editar antes</button></div>
+        </div>
+        <div class="q-item">
+          <div class="q-hd"><div class="q-av" style="background:var(--coral-bg);color:var(--coral-text)">SR</div><div style="flex:1;overflow:hidden"><div class="q-buyer">Sofía R.</div><div class="q-prod">Tijeras Jaguar Silver Line 5.5"</div></div><span class="q-time">hace 1h 10min</span></div>
+          <div class="q-txt">Hacen factura A? Somos empresa y necesitamos el comprobante.</div>
+          <div class="q-ia"><strong>Sugerencia IA:</strong> ¡Sí! Emitimos factura A y B. Luego de realizar el pago, envianos los datos de facturación por mensaje y te la generamos en el día.</div>
+          <div class="q-actions"><button class="qb pr" onclick="this.textContent='✓ Enviada';this.style.background='#1D9E75';this.style.borderColor='#1D9E75';this.style.color='#fff'">Enviar respuesta</button><button class="qb">Editar antes</button></div>
+        </div>
+        <div class="q-item">
+          <div class="q-hd"><div class="q-av" style="background:var(--green-bg);color:var(--green-text)">MP</div><div style="flex:1;overflow:hidden"><div class="q-buyer">Marcelo P.</div><div class="q-prod">Sillón Barbero Positano Reclinable</div></div><span class="q-time">hace 1h 38min</span></div>
+          <div class="q-txt">Puedo retirar en Lomas? Y si compro 2 me dan descuento?</div>
+          <div class="q-ia"><strong>Sugerencia IA:</strong> ¡Sí, podés retirar en nuestra sucursal de Lomas de Zamora! Para pedidos de 2+ unidades, contactanos por mensaje para coordinar precio mayorista.</div>
+          <div class="q-actions"><button class="qb pr" onclick="this.textContent='✓ Enviada';this.style.background='#1D9E75';this.style.borderColor='#1D9E75';this.style.color='#fff'">Enviar respuesta</button><button class="qb">Editar antes</button></div>
+        </div>
+      </div>
+
+      <!-- ===== ATENCIÓN: WHATSAPP ===== -->
+      <div class="panel" id="panel-c-whatsapp">
+        <div class="wsp-wrap">
+          <div class="wsp-list">
+            <div class="wsp-lh">Conversaciones <span class="wsp-unread">3</span></div>
+            <div class="wc active" onclick="swConv(this,0)"><div class="av" style="background:var(--purple-bg);color:var(--purple-text)">JL</div><div class="wc-info"><div class="wc-name">Juan L. <span class="wsp-unread">2</span></div><div class="wc-last">¿envían a Rosario?</div></div><div class="wc-time">14:31</div></div>
+            <div class="wc" onclick="swConv(this,1)"><div class="av" style="background:var(--coral-bg);color:var(--coral-text)">AM</div><div class="wc-info"><div class="wc-name">Ana M. <span class="wsp-unread">1</span></div><div class="wc-last">necesito factura A</div></div><div class="wc-time">13:50</div></div>
+            <div class="wc" onclick="swConv(this,2)"><div class="av" style="background:var(--green-bg);color:var(--green-text)">RG</div><div class="wc-info"><div class="wc-name">Roberto G.</div><div class="wc-last">Gracias! Perfecto</div></div><div class="wc-time">13:12</div></div>
+            <div class="wc" onclick="swConv(this,3)"><div class="av" style="background:#EAF3DE;color:#27500A">MV</div><div class="wc-info"><div class="wc-name">María V.</div><div class="wc-last">cuando llega mi pedido</div></div><div class="wc-time">Ayer</div></div>
+          </div>
+          <div class="wsp-chat">
+            <div class="wch-hd">
+              <div class="av" id="wch-av" style="background:var(--purple-bg);color:var(--purple-text)">JL</div>
+              <div><div class="wch-name" id="wch-name">Juan L.</div><div class="wch-st">● En línea</div></div>
+              <span class="wch-tag tag-bot" id="wch-tag">Atendido por bot</span>
+            </div>
+            <div class="wsp-msgs" id="wsp-msgs"></div>
+            <div class="tkbar" id="tkbar"><span class="tk-txt">El bot está respondiendo. ¿Querés tomar el control?</span><button class="tk-btn" onclick="takeOver()">Tomar control</button></div>
+            <div class="wsp-bar"><input class="wsp-inp" id="wsp-inp" placeholder="Tomá el control para escribir..." disabled /><button class="wsend" onclick="sendMsg()">➤</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ATENCIÓN: RECLAMOS ===== -->
+      <div class="panel" id="panel-c-reclamos">
+        <div class="metrics-grid cols3">
+          <div class="mc"><div class="mc-label">Abiertos</div><div class="mc-val">2</div><div class="mc-sub r">1 vence hoy</div></div>
+          <div class="mc"><div class="mc-label">Resueltos este mes</div><div class="mc-val">14</div><div class="mc-sub g">100% a favor</div></div>
+          <div class="mc"><div class="mc-label">Sin mediaciones</div><div class="mc-val">0</div><div class="mc-sub g">Historial limpio</div></div>
+        </div>
+        <div class="sec-title">Reclamos activos</div>
+        <div class="reclamo-item urg">
+          <div class="reclamo-icon">⚠️</div>
+          <div style="flex:1">
+            <div class="reclamo-title">Orden #2488842 — Silla Peluquería Verona Blanca — $680.000</div>
+            <div class="reclamo-detail">Comprador: Pablo A. · Motivo: producto llegó con daño en el respaldo</div>
+            <div class="reclamo-deadline r">Vence hoy 23:59 hs — responder urgente</div>
+            <div class="q-actions" style="margin-top:9px">
+              <button class="qb pr" onclick="this.textContent='✓ Respondido';this.style.background='#1D9E75';this.style.borderColor='#1D9E75';this.style.color='#fff'">Responder reclamo</button>
+              <button class="qb">Ver historial</button>
+            </div>
+          </div>
+        </div>
+        <div class="reclamo-item">
+          <div class="reclamo-icon">⏱️</div>
+          <div style="flex:1">
+            <div class="reclamo-title">Orden #2488750 — Kit Tijeras Jaguar — $142.000</div>
+            <div class="reclamo-detail">Comprador: Fernanda L. · Motivo: no recibió el pedido</div>
+            <div class="reclamo-deadline a">Vence mañana 12:00 hs</div>
+            <div class="q-actions" style="margin-top:9px">
+              <button class="qb pr" onclick="this.textContent='✓ Respondido';this.style.background='#1D9E75';this.style.borderColor='#1D9E75';this.style.color='#fff'">Responder reclamo</button>
+              <button class="qb">Ver tracking</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /body -->
+</div><!-- /shell -->
+
+<script>
+const convData=[
+  {name:'Juan L.',av:'JL',bg:'var(--purple-bg)',cl:'var(--purple-text)',status:'bot'},
+  {name:'Ana M.',av:'AM',bg:'var(--coral-bg)',cl:'var(--coral-text)',status:'bot'},
+  {name:'Roberto G.',av:'RG',bg:'var(--green-bg)',cl:'var(--green-text)',status:'human'},
+  {name:'María V.',av:'MV',bg:'#EAF3DE',cl:'#27500A',status:'bot'},
+];
+const convMsgs=[
+  [{f:'in',t:'Hola! Quería saber si hacen envíos a Rosario',tm:'14:28'},{f:'out',t:'¡Hola, Juan! Sí, enviamos a todo el país vía Mercado Envíos. El tiempo estimado a Rosario es 2-4 días hábiles.',tm:'14:29',bot:true},{f:'in',t:'Y cuánto sale el envío para una máquina de corte?',tm:'14:31'},{f:'out',t:'La mayoría de nuestras máquinas tiene envío gratis 🚚. Podés verlo directo en la publicación. ¿Querés que te comparta el link?',tm:'14:31',bot:true}],
+  [{f:'in',t:'Buen día! Compré las tijeras Jaguar, necesito factura A para la empresa.',tm:'13:47'},{f:'out',t:'¡Buen día, Ana! Para factura A necesitamos: Razón social, CUIT y dirección fiscal. Enviánoslos por este chat.',tm:'13:48',bot:true},{f:'in',t:'necesito factura A',tm:'13:50'}],
+  [{f:'in',t:'¿El sillón barbero lo arman ustedes o hay que armarlo solo?',tm:'13:05'},{f:'out',t:'Hola Roberto! El sillón viene armado de fábrica. Solo retirás el embalaje. ¿Consultás por el Positano o el Milan?',tm:'13:06',bot:true},{f:'in',t:'Por el Milan Negro',tm:'13:08'},{f:'out',t:'El Milan Negro viene totalmente armado ✅. Trae soporte hidráulico regulable. ¿Necesitás algo más?',tm:'13:09',hum:true},{f:'in',t:'Gracias! Perfecto',tm:'13:12'}],
+  [{f:'in',t:'Compré la secadora hace 5 días y todavía no llegó',tm:'Ayer 18:30'},{f:'out',t:'¡Hola María! Tu pedido #2488910 está en camino con Andreani. Entrega estimada mañana entre 9 y 18hs. ¿Querés el número de seguimiento?',tm:'Ayer 18:31',bot:true},{f:'in',t:'si por favor',tm:'Ayer 18:32'},{f:'out',t:'Tu seguimiento Andreani: 80-00284716. Rastrealo en andreani.com. Cualquier consulta, escribinos 😊',tm:'Ayer 18:32',bot:true}],
+];
+
+let isHuman=false;
+
+function renderMsgs(idx){
+  const c=document.getElementById('wsp-msgs');
+  c.innerHTML='';
+  convMsgs[idx].forEach(m=>{
+    const d=document.createElement('div');
+    d.className='msg '+(m.f==='in'?'in':'out');
+    let h=`<div class="mb">${m.t}</div>`;
+    if(m.bot)h+=`<div class="ms">Bot IA <span class="bot-lbl">auto</span></div>`;
+    if(m.hum)h+=`<div class="ms" style="color:var(--amber-text)">Laura A. <span class="hum-lbl">humano</span></div>`;
+    h+=`<div class="mm">${m.tm}</div>`;
+    d.innerHTML=h;
+    c.appendChild(d);
+  });
+  c.scrollTop=c.scrollHeight;
+}
+
+function swConv(el,idx){
+  document.querySelectorAll('.wc').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  const d=convData[idx];
+  isHuman=d.status==='human';
+  document.getElementById('wch-av').textContent=d.av;
+  document.getElementById('wch-av').style.background=d.bg;
+  document.getElementById('wch-av').style.color=d.cl;
+  document.getElementById('wch-name').textContent=d.name;
+  const tag=document.getElementById('wch-tag');
+  const bar=document.getElementById('tkbar');
+  const inp=document.getElementById('wsp-inp');
+  if(isHuman){tag.className='wch-tag tag-hum';tag.textContent='Atendido por humano';bar.style.display='none';inp.disabled=false;inp.placeholder='Escribí tu respuesta...';}
+  else{tag.className='wch-tag tag-bot';tag.textContent='Atendido por bot';bar.style.display='flex';inp.disabled=true;inp.placeholder='Tomá el control para escribir...';}
+  renderMsgs(idx);
+}
+
+function takeOver(){
+  isHuman=true;
+  document.getElementById('wch-tag').className='wch-tag tag-hum';
+  document.getElementById('wch-tag').textContent='Atendido por humano';
+  document.getElementById('tkbar').style.display='none';
+  const inp=document.getElementById('wsp-inp');
+  inp.disabled=false;inp.placeholder='Escribí tu respuesta...';inp.focus();
+}
+
+function sendMsg(){
+  const inp=document.getElementById('wsp-inp');
+  if(!inp.value.trim()||inp.disabled)return;
+  const c=document.getElementById('wsp-msgs');
+  const d=document.createElement('div');
+  d.className='msg out';
+  d.innerHTML=`<div class="mb">${inp.value}</div><div class="ms" style="color:var(--amber-text)">Laura A. <span class="hum-lbl">humano</span></div><div class="mm">ahora</div>`;
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
+  inp.value='';
+}
+
+function switchView(view,btn){
+  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sb-adrian').style.display=view==='adrian'?'flex':'none';
+  document.getElementById('sb-atencion').style.display=view==='atencion'?'flex':'none';
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  if(view==='adrian'){document.getElementById('panel-a-dashboard').classList.add('active');}
+  else{document.getElementById('panel-c-dashboard').classList.add('active');renderMsgs(0);}
+}
+
+function switchPanel(el){
+  const view=el.dataset.view;
+  document.querySelectorAll(`.ni[data-view="${view}"]`).forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+el.dataset.panel).classList.add('active');
+  if(el.dataset.panel==='c-whatsapp')renderMsgs(0);
+}
+
+renderMsgs(0);
+</script>
+</body>
+</html>
