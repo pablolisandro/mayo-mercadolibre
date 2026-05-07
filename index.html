@@ -1,19 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<script>
-const supabase = supabase.createClient(
-  "https://TU_PROJECT.supabase.co",
-  "TU_ANON_KEY"
-);
-
-(async () => {
-  const { data } = await supabase.auth.getUser();
-
-  if (!data.user) {
-    window.location.href = "/login.html";
-  }
-})();
-</script>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,17 +7,10 @@ const supabase = supabase.createClient(
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F5F0;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:20px}
-
-/* ── TOKENS ── */
 :root{
-  --bg-primary:#FFFFFF;
-  --bg-secondary:#F7F7F4;
-  --bg-tertiary:#EFEFEA;
-  --text-primary:#1A1A1A;
-  --text-secondary:#6B6B6B;
-  --text-tertiary:#A0A0A0;
-  --border:#E2E2DC;
-  --border-strong:#C8C8C0;
+  --bg-primary:#FFFFFF;--bg-secondary:#F7F7F4;--bg-tertiary:#EFEFEA;
+  --text-primary:#1A1A1A;--text-secondary:#6B6B6B;--text-tertiary:#A0A0A0;
+  --border:#E2E2DC;--border-strong:#C8C8C0;
   --green:#1D9E75;--green-bg:#E1F5EE;--green-text:#0A5C42;
   --red:#E24B4A;--red-bg:#FCEBEB;--red-text:#7A1F1F;
   --amber:#BA7517;--amber-bg:#FAEEDA;--amber-text:#5C3800;
@@ -42,10 +19,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   --coral-bg:#FAECE7;--coral-text:#6B2510;
   --ml-yellow:#FFE600;--ml-dark:#2D3277;
 }
-
-.shell{width:100%;max-width:1060px;display:flex;flex-direction:column;height:700px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px;box-shadow:0 2px 16px rgba(0,0,0,.08)}
-
-/* ── TOPNAV ── */
+.shell{width:100%;max-width:1100px;display:flex;flex-direction:column;height:700px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px;box-shadow:0 2px 16px rgba(0,0,0,.08)}
 .topnav{background:var(--bg-primary);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;gap:0;height:46px;flex-shrink:0}
 .brand{display:flex;align-items:center;gap:8px;margin-right:20px}
 .brand-badge{background:var(--ml-yellow);color:var(--ml-dark);font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
@@ -56,11 +30,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .topnav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
 .ml-pill{background:var(--ml-yellow);color:var(--ml-dark);font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px}
 .topnav-date{font-size:11px;color:var(--text-secondary)}
-
-/* ── BODY ── */
 .body{display:flex;flex:1;overflow:hidden}
-
-/* ── SIDEBAR ── */
 .sidebar{width:196px;background:var(--bg-primary);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
 .nav-sec{padding:10px 12px 3px;font-size:10px;color:var(--text-tertiary);letter-spacing:.07em;text-transform:uppercase;font-weight:600}
 .ni{display:flex;align-items:center;gap:7px;padding:8px 12px;cursor:pointer;color:var(--text-secondary);border-left:2px solid transparent;transition:all .12s;user-select:none}
@@ -68,8 +38,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .ni.active{background:#FFFBCC;color:var(--ml-dark);border-left-color:var(--ml-yellow);font-weight:600}
 .ni-icon{font-size:14px;width:16px;text-align:center;flex-shrink:0}
 .ni-label{font-size:12.5px}
-.ni-badge{margin-left:auto;color:#fff;font-size:10px;font-weight:600;border-radius:8px;padding:1px 6px}
-.ni-badge{background:var(--red)}
+.ni-badge{margin-left:auto;color:#fff;font-size:10px;font-weight:600;border-radius:8px;padding:1px 6px;background:var(--red)}
 .ni-badge.amber{background:var(--amber)}
 .ni-badge.blue{background:var(--blue)}
 .sb-footer{margin-top:auto;padding:10px 12px;border-top:1px solid var(--border)}
@@ -77,13 +46,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
 .agent-name{font-size:12px;font-weight:600;color:var(--text-primary)}
 .agent-status{font-size:11px;color:var(--green)}
-
-/* ── MAIN ── */
 .main{flex:1;overflow-y:auto;overflow-x:hidden}
 .panel{display:none;padding:14px 16px}
 .panel.active{display:block}
 
-/* ── METRICS ── */
+/* METRICS */
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
 .metrics-grid.cols3{grid-template-columns:repeat(3,1fr)}
 .mc{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
@@ -91,10 +58,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .mc-val{font-size:20px;font-weight:700;color:var(--text-primary);line-height:1.2}
 .mc-sub{font-size:11px;margin-top:3px;font-weight:500}
 .g{color:var(--green)}.r{color:var(--red)}.a{color:var(--amber)}.b{color:var(--blue)}
-
 .sec-title{font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
 
-/* ── TABLE ── */
+/* TABLE */
 .table-wrap{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
 table{width:100%;border-collapse:collapse;table-layout:fixed}
 th{background:var(--bg-secondary);font-size:11px;font-weight:600;color:var(--text-secondary);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
@@ -102,7 +68,7 @@ td{font-size:12px;padding:8px 10px;color:var(--text-primary);border-bottom:1px s
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--bg-secondary)}
 
-/* ── PILLS ── */
+/* PILLS */
 .pill{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
 .p-ok{background:var(--green-bg);color:var(--green-text)}
 .p-low{background:var(--amber-bg);color:var(--amber-text)}
@@ -111,7 +77,7 @@ tr:hover td{background:var(--bg-secondary)}
 .p-blue{background:var(--blue-bg);color:var(--blue-text)}
 .p-q{background:#FBEAF0;color:#6B1F3E}
 
-/* ── BAR ── */
+/* BARS */
 .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
 .bar-name{font-size:12px;color:var(--text-primary);width:160px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar-track{flex:1;height:7px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
@@ -119,7 +85,7 @@ tr:hover td{background:var(--bg-secondary)}
 .bar-fill.b2{background:var(--green)}
 .bar-val{font-size:12px;font-weight:600;color:var(--text-primary);width:55px;text-align:right;flex-shrink:0}
 
-/* ── CARD ── */
+/* CARDS */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .card{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
 .card-title{font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:10px}
@@ -129,7 +95,7 @@ tr:hover td{background:var(--bg-secondary)}
 .cat-val{font-size:12px;font-weight:700;color:var(--text-primary)}
 .cat-sub{font-size:11px;color:var(--text-secondary)}
 
-/* ── ALERTS ── */
+/* ALERTS */
 .alert-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:8px;margin-bottom:7px}
 .alert-item.urg{background:var(--red-bg);border:1px solid #F7C1C1}
 .alert-item.warn{background:var(--amber-bg);border:1px solid #FAC775}
@@ -139,7 +105,7 @@ tr:hover td{background:var(--bg-secondary)}
 .alert-text{font-size:12px;color:var(--text-primary);font-weight:600}
 .alert-sub{font-size:11px;color:var(--text-secondary);margin-top:1px}
 
-/* ── QUESTIONS ── */
+/* QUESTIONS */
 .q-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:11px 13px;margin-bottom:9px}
 .q-item.urg{border-left:3px solid var(--red)}
 .q-hd{display:flex;align-items:center;gap:8px;margin-bottom:7px}
@@ -151,12 +117,12 @@ tr:hover td{background:var(--bg-secondary)}
 .q-ia{font-size:11px;color:var(--blue-text);background:var(--blue-bg);border-radius:5px;padding:6px 9px;line-height:1.5;margin-bottom:7px;border:1px solid #B5D4F4}
 .q-ia strong{font-weight:700}
 .q-actions{display:flex;gap:6px}
-.qb{font-size:11px;padding:4px 12px;border-radius:5px;border:1px solid var(--border-strong);background:var(--bg-primary);color:var(--text-primary);cursor:pointer;font-family:inherit;font-weight:500;transition:background .12s}
+.qb{font-size:11px;padding:4px 12px;border-radius:5px;border:1px solid var(--border-strong);background:var(--bg-primary);color:var(--text-primary);cursor:pointer;font-family:inherit;font-weight:500}
 .qb.pr{background:var(--ml-yellow);border-color:var(--ml-yellow);color:var(--ml-dark);font-weight:700}
 .qb:hover{background:var(--bg-secondary)}
 
-/* ── WHATSAPP ── */
-.wsp-wrap{display:flex;height:520px}
+/* WHATSAPP */
+.wsp-wrap{display:flex;height:510px}
 .wsp-list{width:210px;border-right:1px solid var(--border);background:var(--bg-primary);overflow-y:auto;flex-shrink:0}
 .wsp-lh{padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;justify-content:space-between}
 .wsp-unread{background:#25D366;color:#fff;font-size:10px;font-weight:700;border-radius:8px;padding:1px 5px}
@@ -187,33 +153,60 @@ tr:hover td{background:var(--bg-secondary)}
 .tkbar{background:var(--amber-bg);border-top:1px solid #FAC775;padding:8px 14px;display:flex;align-items:center;gap:10px}
 .tk-txt{font-size:11px;color:var(--amber-text);flex:1;font-weight:500}
 .tk-btn{font-size:11px;padding:4px 12px;border-radius:5px;border:1px solid var(--amber);background:#fff;color:var(--amber-text);cursor:pointer;font-family:inherit;font-weight:600}
-.tk-btn:hover{background:var(--amber-bg)}
 .wsp-bar{background:var(--bg-primary);border-top:1px solid var(--border);padding:9px 14px;display:flex;align-items:center;gap:8px}
 .wsp-inp{flex:1;background:var(--bg-secondary);border:1px solid var(--border);border-radius:20px;padding:7px 13px;font-size:12px;color:var(--text-primary);outline:none;font-family:inherit}
-.wsp-inp:focus{border-color:var(--border-strong)}
 .wsend{width:32px;height:32px;background:#25D366;border-radius:50%;border:none;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
+.wsend:disabled{background:#ccc;cursor:not-allowed}
 
-/* ── RECLAMOS ── */
+/* RECLAMOS */
 .reclamo-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:9px;display:flex;align-items:flex-start;gap:12px}
 .reclamo-item.urg{border-left:3px solid var(--red)}
-.reclamo-icon{font-size:22px;flex-shrink:0;margin-top:2px}
 .reclamo-title{font-size:12px;font-weight:700;color:var(--text-primary);margin-bottom:3px}
 .reclamo-detail{font-size:11px;color:var(--text-secondary);margin-bottom:5px}
 .reclamo-deadline{font-size:11px;font-weight:700}
-
-/* ── BANDEJA PRIORITARIOS ── */
 .pri-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:10px 13px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
 .pri-item.urg{border-left:3px solid var(--red)}
 .pri-item.warn{border-left:3px solid var(--amber)}
 .pri-item.info{border-left:3px solid var(--blue)}
 .pri-title{font-size:12px;font-weight:600;color:var(--text-primary)}
 .pri-sub{font-size:11px;color:var(--text-secondary);margin-top:2px}
+
+/* ── CHATBOT ── */
+.chat-panel{display:flex;flex-direction:column;height:560px}
+.chat-header{background:var(--bg-primary);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.chat-header-info{flex:1}
+.chat-title{font-size:13px;font-weight:600;color:var(--text-primary)}
+.chat-subtitle{font-size:11px;color:var(--text-secondary)}
+.chat-status{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bg-secondary)}
+.chat-msg{display:flex;flex-direction:column;max-width:78%}
+.chat-msg.user{align-self:flex-end}
+.chat-msg.bot{align-self:flex-start}
+.chat-bubble{padding:9px 13px;border-radius:12px;font-size:12px;line-height:1.6}
+.chat-msg.user .chat-bubble{background:var(--ml-dark);color:#FFFFFF;border-radius:12px 12px 2px 12px}
+.chat-msg.bot .chat-bubble{background:var(--bg-primary);color:var(--text-primary);border-radius:2px 12px 12px 12px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.chat-msg-meta{font-size:10px;color:var(--text-tertiary);padding:2px 4px}
+.chat-typing{align-self:flex-start;background:var(--bg-primary);border:1px solid var(--border);border-radius:2px 12px 12px 12px;padding:10px 14px;display:none}
+.typing-dots{display:flex;gap:4px}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--text-tertiary);animation:bounce .8s infinite}
+.typing-dots span:nth-child(2){animation-delay:.15s}
+.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.chat-input-area{background:var(--bg-primary);border-top:1px solid var(--border);padding:10px 14px;display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
+.chat-input{flex:1;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:8px 13px;font-size:12px;color:var(--text-primary);outline:none;font-family:inherit;resize:none;min-height:36px;max-height:80px}
+.chat-input:focus{border-color:var(--border-strong)}
+.chat-send{width:34px;height:34px;background:var(--ml-dark);border-radius:8px;border:none;color:#FFE600;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700}
+.chat-send:hover{background:#1e2455}
+.chat-send:disabled{background:#ccc;color:#fff;cursor:not-allowed}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;background:var(--bg-primary);border-top:1px solid var(--border)}
+.sug-btn{font-size:11px;padding:4px 10px;border-radius:16px;border:1px solid var(--border-strong);background:var(--bg-primary);color:var(--text-secondary);cursor:pointer;font-family:inherit;transition:all .12s;white-space:nowrap}
+.sug-btn:hover{background:var(--ml-yellow);border-color:var(--ml-yellow);color:var(--ml-dark);font-weight:600}
 </style>
 </head>
 <body>
 <div class="shell">
-
-  <!-- TOPNAV -->
   <div class="topnav">
     <div class="brand">
       <div class="brand-badge">ML Platinum</div>
@@ -224,13 +217,12 @@ tr:hover td{background:var(--bg-secondary)}
       <button class="vt-btn" onclick="switchView('atencion',this)">Atención al cliente</button>
     </div>
     <div class="topnav-right">
-      <span class="topnav-date">Martes 5 mayo 2026</span>
+      <span class="topnav-date">Martes 7 mayo 2026</span>
       <span class="ml-pill">MercadoLíder Platinum</span>
     </div>
   </div>
 
   <div class="body">
-
     <!-- SIDEBAR ADRIÁN -->
     <div class="sidebar" id="sb-adrian">
       <div class="nav-sec">Resumen</div>
@@ -242,6 +234,8 @@ tr:hover td{background:var(--bg-secondary)}
       <div class="ni" data-view="adrian" data-panel="a-catalogo" onclick="switchPanel(this)"><span class="ni-icon">📦</span><span class="ni-label">Catálogo ML</span></div>
       <div class="nav-sec">Operativo</div>
       <div class="ni" data-view="adrian" data-panel="a-atencion" onclick="switchPanel(this)"><span class="ni-icon">👥</span><span class="ni-label">Atención</span><span class="ni-badge blue">8</span></div>
+      <div class="nav-sec">Asistente IA</div>
+      <div class="ni" data-view="adrian" data-panel="a-chatbot" onclick="switchPanel(this)"><span class="ni-icon">🤖</span><span class="ni-label">Copiloto Adrián</span></div>
       <div class="sb-footer">
         <div class="agent-row">
           <div class="av" style="background:#FFFBCC;color:var(--ml-dark)">AQ</div>
@@ -257,6 +251,8 @@ tr:hover td{background:var(--bg-secondary)}
       <div class="ni" data-view="atencion" data-panel="c-preguntas" onclick="switchPanel(this)"><span class="ni-icon">❓</span><span class="ni-label">Preguntas ML</span><span class="ni-badge">5</span></div>
       <div class="ni" data-view="atencion" data-panel="c-whatsapp" onclick="switchPanel(this)"><span class="ni-icon">💬</span><span class="ni-label">WhatsApp</span><span class="ni-badge">3</span></div>
       <div class="ni" data-view="atencion" data-panel="c-reclamos" onclick="switchPanel(this)"><span class="ni-icon">🔴</span><span class="ni-label">Reclamos</span><span class="ni-badge amber">2</span></div>
+      <div class="nav-sec">Asistente IA</div>
+      <div class="ni" data-view="atencion" data-panel="c-chatbot" onclick="switchPanel(this)"><span class="ni-icon">🤖</span><span class="ni-label">Asistente respuestas</span></div>
       <div class="sb-footer">
         <div class="agent-row">
           <div class="av" style="background:var(--purple-bg);color:var(--purple-text)">LA</div>
@@ -267,7 +263,7 @@ tr:hover td{background:var(--bg-secondary)}
 
     <div class="main" id="main-content">
 
-      <!-- ===== ADRIÁN: DASHBOARD ===== -->
+      <!-- ADRIÁN: DASHBOARD -->
       <div class="panel active" id="panel-a-dashboard">
         <div class="metrics-grid">
           <div class="mc"><div class="mc-label">Ventas hoy</div><div class="mc-val">$184.200</div><div class="mc-sub g">↑ +23% vs ayer</div></div>
@@ -302,7 +298,7 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-      <!-- ===== ADRIÁN: VENTAS ===== -->
+      <!-- ADRIÁN: VENTAS -->
       <div class="panel" id="panel-a-ventas">
         <div class="metrics-grid">
           <div class="mc"><div class="mc-label">Enero</div><div class="mc-val">$1.820k</div><div class="mc-sub g">+8%</div></div>
@@ -336,7 +332,7 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-      <!-- ===== ADRIÁN: RANKING ===== -->
+      <!-- ADRIÁN: RANKING -->
       <div class="panel" id="panel-a-ranking">
         <div class="sec-title">Top publicaciones — unidades vendidas este mes</div>
         <div class="table-wrap">
@@ -349,7 +345,7 @@ tr:hover td{background:var(--bg-secondary)}
               <tr><td>4</td><td>Secador Parlux 385 Power Negro</td><td>Herramientas</td><td>$95.500</td><td>24</td><td class="g" style="font-weight:700">$2.292k</td><td><span class="pill p-ok">OK</span></td></tr>
               <tr><td>5</td><td>Silla Peluquería Verona Blanca</td><td>Muebles</td><td>$680.000</td><td>14</td><td class="g" style="font-weight:700">$9.520k</td><td><span class="pill p-ok">OK</span></td></tr>
               <tr><td>6</td><td>Maletin Barbero White Rose</td><td>Accesorios</td><td>$151.000</td><td>22</td><td class="g" style="font-weight:700">$3.322k</td><td><span class="pill p-ok">OK</span></td></tr>
-              <tr><td>7</td><td>Cabeza de práctica 50% Natural 60cm</td><td>Accesorios</td><td>$62.990</td><td>38</td><td class="g" style="font-weight:700">$2.394k</td><td><span class="pill p-hot">⚡ Top</span></td></tr>
+              <tr><td>7</td><td>Cabeza de práctica Natural 60cm</td><td>Accesorios</td><td>$62.990</td><td>38</td><td class="g" style="font-weight:700">$2.394k</td><td><span class="pill p-hot">⚡ Top</span></td></tr>
               <tr><td>8</td><td>Ampollas Argán Fidelité x12</td><td>Capilares</td><td>$18.700</td><td>65</td><td class="g" style="font-weight:700">$1.216k</td><td><span class="pill p-ok">OK</span></td></tr>
               <tr><td>9</td><td>Primont Máscara Hidratante 500g</td><td>Capilares</td><td>$12.400</td><td>58</td><td class="g" style="font-weight:700">$719k</td><td><span class="pill p-low">Stock bajo</span></td></tr>
               <tr><td>10</td><td>Sillón Barbero Positano Reclinable</td><td>Muebles</td><td>$1.804.000</td><td>7</td><td class="g" style="font-weight:700">$12.628k</td><td><span class="pill p-ok">OK</span></td></tr>
@@ -358,14 +354,14 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-      <!-- ===== ADRIÁN: STOCK ===== -->
+      <!-- ADRIÁN: STOCK -->
       <div class="panel" id="panel-a-stock">
         <div class="metrics-grid cols3">
           <div class="mc"><div class="mc-label">Sin stock (pausadas)</div><div class="mc-val">4</div><div class="mc-sub r">Pérdida de ventas activa</div></div>
           <div class="mc"><div class="mc-label">Stock crítico (1-5 u.)</div><div class="mc-val">7</div><div class="mc-sub a">Reabastecer esta semana</div></div>
           <div class="mc"><div class="mc-label">Stock bajo (6-15 u.)</div><div class="mc-val">12</div><div class="mc-sub b">Monitorear</div></div>
         </div>
-        <div class="sec-title">Sin stock — publicaciones pausadas automáticamente por ML</div>
+        <div class="sec-title">Sin stock — pausadas automáticamente por ML</div>
         <div class="table-wrap" style="margin-bottom:14px">
           <table>
             <thead><tr><th>Producto</th><th style="width:90px">Categoría</th><th style="width:72px">Precio</th><th style="width:82px">Ventas/mes</th><th style="width:88px">Estado</th></tr></thead>
@@ -392,7 +388,7 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-      <!-- ===== ADRIÁN: CATÁLOGO ===== -->
+      <!-- ADRIÁN: CATÁLOGO -->
       <div class="panel" id="panel-a-catalogo">
         <div class="metrics-grid">
           <div class="mc"><div class="mc-label">Total publicaciones</div><div class="mc-val">184</div><div class="mc-sub g">172 activas</div></div>
@@ -421,7 +417,7 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-      <!-- ===== ADRIÁN: RESUMEN ATENCIÓN ===== -->
+      <!-- ADRIÁN: RESUMEN ATENCIÓN -->
       <div class="panel" id="panel-a-atencion">
         <div class="metrics-grid">
           <div class="mc"><div class="mc-label">Preguntas ML sin resp.</div><div class="mc-val">5</div><div class="mc-sub r">Máx. 2h restantes</div></div>
@@ -434,7 +430,7 @@ tr:hover td{background:var(--bg-secondary)}
             <div class="card-title">Equipo atención al cliente</div>
             <div class="cat-row"><span class="cat-name">Laura A.</span><span class="pill p-ok">● En línea</span></div>
             <div class="cat-row"><span class="cat-name">Carla M.</span><span class="pill p-blue">● En línea</span></div>
-            <div class="cat-row" style="margin-top:8px;border-top:none"><span class="cat-sub">Preguntas respondidas hoy: 18</span></div>
+            <div class="cat-row" style="border-top:none;margin-top:6px"><span class="cat-sub">Preguntas respondidas hoy: 18</span></div>
             <div class="cat-row" style="border-top:none"><span class="cat-sub">Tasa respuesta en tiempo: 94%</span></div>
           </div>
           <div class="card">
@@ -448,7 +444,39 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-      <!-- ===== ATENCIÓN: BANDEJA ===== -->
+      <!-- ADRIÁN: CHATBOT -->
+      <div class="panel" id="panel-a-chatbot">
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div style="font-size:22px">🤖</div>
+            <div class="chat-header-info">
+              <div class="chat-title">Copiloto Adrián — Asistente IA de tu negocio</div>
+              <div class="chat-subtitle">Consultá ventas, stock, publicaciones y métricas en lenguaje natural</div>
+            </div>
+            <div class="chat-status"><span class="status-dot"></span> Conectado a n8n</div>
+          </div>
+          <div class="chat-suggestions">
+            <button class="sug-btn" onclick="sendSuggestion(this,'¿Cuál fue mi producto más vendido este mes?')">🏆 Producto más vendido</button>
+            <button class="sug-btn" onclick="sendSuggestion(this,'¿Qué publicaciones tienen stock crítico?')">⚠️ Stock crítico</button>
+            <button class="sug-btn" onclick="sendSuggestion(this,'¿Cuánto facturé en mayo vs abril?')">💰 Comparar ventas</button>
+            <button class="sug-btn" onclick="sendSuggestion(this,'Redactame una respuesta para el reclamo de la silla Verona')">✍️ Redactar respuesta reclamo</button>
+            <button class="sug-btn" onclick="sendSuggestion(this,'¿Qué categoría me genera más ingresos?')">📊 Categoría top</button>
+          </div>
+          <div class="chat-messages" id="chat-msgs-adrian">
+            <div class="chat-msg bot">
+              <div class="chat-bubble">¡Hola Adrián! 👋 Soy tu copiloto de negocio. Puedo ayudarte a consultar ventas, stock, publicaciones y métricas de Estilo AQ. ¿Qué querés saber hoy?</div>
+              <div class="chat-msg-meta">Ahora</div>
+            </div>
+          </div>
+          <div class="chat-typing" id="typing-adrian"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+          <div class="chat-input-area">
+            <textarea class="chat-input" id="input-adrian" placeholder="Preguntá sobre tus ventas, stock, publicaciones..." rows="1" onkeydown="handleKey(event,'adrian')"></textarea>
+            <button class="chat-send" id="send-adrian" onclick="sendChat('adrian')">➤</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATENCIÓN: BANDEJA -->
       <div class="panel" id="panel-c-dashboard">
         <div class="metrics-grid">
           <div class="mc"><div class="mc-label">Preguntas ML</div><div class="mc-val">5</div><div class="mc-sub r">Sin responder</div></div>
@@ -463,7 +491,7 @@ tr:hover td{background:var(--bg-secondary)}
         <div class="pri-item info"><div class="alert-dot dot-b" style="margin-top:4px;flex-shrink:0"></div><div><div class="pri-title">Juan L. en WhatsApp — consulta envío Rosario</div><div class="pri-sub">Bot respondiendo, podés monitorear</div></div></div>
       </div>
 
-      <!-- ===== ATENCIÓN: PREGUNTAS ===== -->
+      <!-- ATENCIÓN: PREGUNTAS -->
       <div class="panel" id="panel-c-preguntas">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
           <span style="font-size:13px;font-weight:600;color:var(--text-primary);flex:1">Preguntas sin responder <span style="font-weight:400;color:var(--text-secondary)">(para el equipo de atención al cliente)</span></span>
@@ -489,7 +517,7 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-      <!-- ===== ATENCIÓN: WHATSAPP ===== -->
+      <!-- ATENCIÓN: WHATSAPP -->
       <div class="panel" id="panel-c-whatsapp">
         <div class="wsp-wrap">
           <div class="wsp-list">
@@ -507,12 +535,12 @@ tr:hover td{background:var(--bg-secondary)}
             </div>
             <div class="wsp-msgs" id="wsp-msgs"></div>
             <div class="tkbar" id="tkbar"><span class="tk-txt">El bot está respondiendo. ¿Querés tomar el control?</span><button class="tk-btn" onclick="takeOver()">Tomar control</button></div>
-            <div class="wsp-bar"><input class="wsp-inp" id="wsp-inp" placeholder="Tomá el control para escribir..." disabled /><button class="wsend" onclick="sendMsg()">➤</button></div>
+            <div class="wsp-bar"><input class="wsp-inp" id="wsp-inp" placeholder="Tomá el control para escribir..." disabled /><button class="wsend" onclick="sendWsp()">➤</button></div>
           </div>
         </div>
       </div>
 
-      <!-- ===== ATENCIÓN: RECLAMOS ===== -->
+      <!-- ATENCIÓN: RECLAMOS -->
       <div class="panel" id="panel-c-reclamos">
         <div class="metrics-grid cols3">
           <div class="mc"><div class="mc-label">Abiertos</div><div class="mc-val">2</div><div class="mc-sub r">1 vence hoy</div></div>
@@ -521,7 +549,7 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
         <div class="sec-title">Reclamos activos</div>
         <div class="reclamo-item urg">
-          <div class="reclamo-icon">⚠️</div>
+          <div style="font-size:22px">⚠️</div>
           <div style="flex:1">
             <div class="reclamo-title">Orden #2488842 — Silla Peluquería Verona Blanca — $680.000</div>
             <div class="reclamo-detail">Comprador: Pablo A. · Motivo: producto llegó con daño en el respaldo</div>
@@ -533,7 +561,7 @@ tr:hover td{background:var(--bg-secondary)}
           </div>
         </div>
         <div class="reclamo-item">
-          <div class="reclamo-icon">⏱️</div>
+          <div style="font-size:22px">⏱️</div>
           <div style="flex:1">
             <div class="reclamo-title">Orden #2488750 — Kit Tijeras Jaguar — $142.000</div>
             <div class="reclamo-detail">Comprador: Fernanda L. · Motivo: no recibió el pedido</div>
@@ -546,11 +574,124 @@ tr:hover td{background:var(--bg-secondary)}
         </div>
       </div>
 
-    </div><!-- /main -->
-  </div><!-- /body -->
-</div><!-- /shell -->
+      <!-- ATENCIÓN: CHATBOT -->
+      <div class="panel" id="panel-c-chatbot">
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div style="font-size:22px">💬</div>
+            <div class="chat-header-info">
+              <div class="chat-title">Asistente de respuestas — Estilo AQ</div>
+              <div class="chat-subtitle">Ayuda para redactar respuestas a clientes de MercadoLibre y WhatsApp</div>
+            </div>
+            <div class="chat-status"><span class="status-dot"></span> Conectado a n8n</div>
+          </div>
+          <div class="chat-suggestions">
+            <button class="sug-btn" onclick="sendSuggestionAtencion(this,'¿Hacen envíos a Córdoba?')">📦 ¿Envíos a Córdoba?</button>
+            <button class="sug-btn" onclick="sendSuggestionAtencion(this,'Necesito factura A para mi empresa')">🧾 Factura A</button>
+            <button class="sug-btn" onclick="sendSuggestionAtencion(this,'¿El sillón Milan viene armado?')">🪑 Armado de mueble</button>
+            <button class="sug-btn" onclick="sendSuggestionAtencion(this,'¿Cuánto tarda en llegar a Rosario?')">🚚 Tiempo de entrega</button>
+            <button class="sug-btn" onclick="sendSuggestionAtencion(this,'Compro 3 sillones, ¿me dan descuento?')">💲 Descuento mayorista</button>
+          </div>
+          <div class="chat-messages" id="chat-msgs-atencion">
+            <div class="chat-msg bot">
+              <div class="chat-bubble">¡Hola! 👋 Soy el asistente de Estilo AQ. Podés escribirme como si fueras un cliente y te ayudo a redactar la respuesta perfecta. También podés preguntarme directamente sobre productos, envíos o políticas.</div>
+              <div class="chat-msg-meta">Ahora</div>
+            </div>
+          </div>
+          <div class="chat-typing" id="typing-atencion"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+          <div class="chat-input-area">
+            <textarea class="chat-input" id="input-atencion" placeholder="Simulá una consulta de cliente o preguntá sobre políticas..." rows="1" onkeydown="handleKeyAtencion(event)"></textarea>
+            <button class="chat-send" id="send-atencion" onclick="sendChat('atencion')">➤</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <script>
+const WEBHOOK_ADRIAN = 'https://botsconeccion.app.n8n.cloud/webhook/estiloaq-adrian';
+const WEBHOOK_ATENCION = 'https://botsconeccion.app.n8n.cloud/webhook/estiloaq-atencion';
+
+const sessionAdrian = 'adrian-' + Math.random().toString(36).substr(2,9);
+const sessionAtencion = 'atencion-' + Math.random().toString(36).substr(2,9);
+
+function now(){const d=new Date();return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')}
+
+function addMsg(containerId, role, text){
+  const c = document.getElementById(containerId);
+  const d = document.createElement('div');
+  d.className = 'chat-msg ' + role;
+  d.innerHTML = `<div class="chat-bubble">${text}</div><div class="chat-msg-meta">${now()}</div>`;
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+
+function showTyping(id){
+  const el = document.getElementById('typing-' + id);
+  el.style.display = 'block';
+  const c = document.getElementById('chat-msgs-' + id);
+  c.scrollTop = c.scrollHeight;
+}
+
+function hideTyping(id){
+  document.getElementById('typing-' + id).style.display = 'none';
+}
+
+async function sendChat(bot){
+  const inputEl = document.getElementById('input-' + bot);
+  const sendBtn = document.getElementById('send-' + bot);
+  const msg = inputEl.value.trim();
+  if(!msg) return;
+
+  const containerId = 'chat-msgs-' + bot;
+  const webhook = bot === 'adrian' ? WEBHOOK_ADRIAN : WEBHOOK_ATENCION;
+  const sessionId = bot === 'adrian' ? sessionAdrian : sessionAtencion;
+
+  addMsg(containerId, 'user', msg);
+  inputEl.value = '';
+  inputEl.disabled = true;
+  sendBtn.disabled = true;
+  showTyping(bot);
+
+  try {
+    const res = await fetch(webhook, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ message: msg, sessionId: sessionId })
+    });
+    const data = await res.json();
+    hideTyping(bot);
+    const reply = data.reply || data.output || data.text || 'Sin respuesta del servidor.';
+    addMsg(containerId, 'bot', reply.replace(/\n/g,'<br>'));
+  } catch(err) {
+    hideTyping(bot);
+    addMsg(containerId, 'bot', '⚠️ Error al conectar con el asistente. Verificá que el workflow de n8n esté activo.');
+  }
+
+  inputEl.disabled = false;
+  sendBtn.disabled = false;
+  inputEl.focus();
+}
+
+function handleKey(e, bot){
+  if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendChat(bot); }
+}
+function handleKeyAtencion(e){
+  if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendChat('atencion'); }
+}
+
+function sendSuggestion(btn, text){
+  document.getElementById('input-adrian').value = text;
+  sendChat('adrian');
+}
+function sendSuggestionAtencion(btn, text){
+  document.getElementById('input-atencion').value = text;
+  sendChat('atencion');
+}
+
+// ── WSP SIMULADO ──
 const convData=[
   {name:'Juan L.',av:'JL',bg:'var(--purple-bg)',cl:'var(--purple-text)',status:'bot'},
   {name:'Ana M.',av:'AM',bg:'var(--coral-bg)',cl:'var(--coral-text)',status:'bot'},
@@ -558,78 +699,53 @@ const convData=[
   {name:'María V.',av:'MV',bg:'#EAF3DE',cl:'#27500A',status:'bot'},
 ];
 const convMsgs=[
-  [{f:'in',t:'Hola! Quería saber si hacen envíos a Rosario',tm:'14:28'},{f:'out',t:'¡Hola, Juan! Sí, enviamos a todo el país vía Mercado Envíos. El tiempo estimado a Rosario es 2-4 días hábiles.',tm:'14:29',bot:true},{f:'in',t:'Y cuánto sale el envío para una máquina de corte?',tm:'14:31'},{f:'out',t:'La mayoría de nuestras máquinas tiene envío gratis 🚚. Podés verlo directo en la publicación. ¿Querés que te comparta el link?',tm:'14:31',bot:true}],
+  [{f:'in',t:'Hola! Quería saber si hacen envíos a Rosario',tm:'14:28'},{f:'out',t:'¡Hola, Juan! Sí, enviamos a todo el país vía Mercado Envíos. El tiempo estimado a Rosario es 2-4 días hábiles.',tm:'14:29',bot:true},{f:'in',t:'Y cuánto sale el envío para una máquina de corte?',tm:'14:31'},{f:'out',t:'La mayoría de nuestras máquinas tiene envío gratis 🚚. Podés verlo en la publicación. ¿Querés que te comparta el link?',tm:'14:31',bot:true}],
   [{f:'in',t:'Buen día! Compré las tijeras Jaguar, necesito factura A para la empresa.',tm:'13:47'},{f:'out',t:'¡Buen día, Ana! Para factura A necesitamos: Razón social, CUIT y dirección fiscal. Enviánoslos por este chat.',tm:'13:48',bot:true},{f:'in',t:'necesito factura A',tm:'13:50'}],
   [{f:'in',t:'¿El sillón barbero lo arman ustedes o hay que armarlo solo?',tm:'13:05'},{f:'out',t:'Hola Roberto! El sillón viene armado de fábrica. Solo retirás el embalaje. ¿Consultás por el Positano o el Milan?',tm:'13:06',bot:true},{f:'in',t:'Por el Milan Negro',tm:'13:08'},{f:'out',t:'El Milan Negro viene totalmente armado ✅. Trae soporte hidráulico regulable. ¿Necesitás algo más?',tm:'13:09',hum:true},{f:'in',t:'Gracias! Perfecto',tm:'13:12'}],
-  [{f:'in',t:'Compré la secadora hace 5 días y todavía no llegó',tm:'Ayer 18:30'},{f:'out',t:'¡Hola María! Tu pedido #2488910 está en camino con Andreani. Entrega estimada mañana entre 9 y 18hs. ¿Querés el número de seguimiento?',tm:'Ayer 18:31',bot:true},{f:'in',t:'si por favor',tm:'Ayer 18:32'},{f:'out',t:'Tu seguimiento Andreani: 80-00284716. Rastrealo en andreani.com. Cualquier consulta, escribinos 😊',tm:'Ayer 18:32',bot:true}],
+  [{f:'in',t:'Compré la secadora hace 5 días y todavía no llegó',tm:'Ayer 18:30'},{f:'out',t:'¡Hola María! Tu pedido #2488910 está en camino con Andreani. Entrega estimada mañana entre 9 y 18hs.',tm:'Ayer 18:31',bot:true},{f:'in',t:'si por favor',tm:'Ayer 18:32'},{f:'out',t:'Tu seguimiento Andreani: 80-00284716. Rastrealo en andreani.com 😊',tm:'Ayer 18:32',bot:true}],
 ];
-
 let isHuman=false;
-
 function renderMsgs(idx){
-  const c=document.getElementById('wsp-msgs');
-  c.innerHTML='';
+  const c=document.getElementById('wsp-msgs');c.innerHTML='';
   convMsgs[idx].forEach(m=>{
-    const d=document.createElement('div');
-    d.className='msg '+(m.f==='in'?'in':'out');
+    const d=document.createElement('div');d.className='msg '+(m.f==='in'?'in':'out');
     let h=`<div class="mb">${m.t}</div>`;
     if(m.bot)h+=`<div class="ms">Bot IA <span class="bot-lbl">auto</span></div>`;
     if(m.hum)h+=`<div class="ms" style="color:var(--amber-text)">Laura A. <span class="hum-lbl">humano</span></div>`;
-    h+=`<div class="mm">${m.tm}</div>`;
-    d.innerHTML=h;
-    c.appendChild(d);
-  });
-  c.scrollTop=c.scrollHeight;
+    h+=`<div class="mm">${m.tm}</div>`;d.innerHTML=h;c.appendChild(d);
+  });c.scrollTop=c.scrollHeight;
 }
-
 function swConv(el,idx){
-  document.querySelectorAll('.wc').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  const d=convData[idx];
-  isHuman=d.status==='human';
+  document.querySelectorAll('.wc').forEach(c=>c.classList.remove('active'));el.classList.add('active');
+  const d=convData[idx];isHuman=d.status==='human';
   document.getElementById('wch-av').textContent=d.av;
   document.getElementById('wch-av').style.background=d.bg;
   document.getElementById('wch-av').style.color=d.cl;
   document.getElementById('wch-name').textContent=d.name;
-  const tag=document.getElementById('wch-tag');
-  const bar=document.getElementById('tkbar');
-  const inp=document.getElementById('wsp-inp');
+  const tag=document.getElementById('wch-tag'),bar=document.getElementById('tkbar'),inp=document.getElementById('wsp-inp');
   if(isHuman){tag.className='wch-tag tag-hum';tag.textContent='Atendido por humano';bar.style.display='none';inp.disabled=false;inp.placeholder='Escribí tu respuesta...';}
   else{tag.className='wch-tag tag-bot';tag.textContent='Atendido por bot';bar.style.display='flex';inp.disabled=true;inp.placeholder='Tomá el control para escribir...';}
   renderMsgs(idx);
 }
-
 function takeOver(){
-  isHuman=true;
-  document.getElementById('wch-tag').className='wch-tag tag-hum';
-  document.getElementById('wch-tag').textContent='Atendido por humano';
-  document.getElementById('tkbar').style.display='none';
-  const inp=document.getElementById('wsp-inp');
-  inp.disabled=false;inp.placeholder='Escribí tu respuesta...';inp.focus();
+  isHuman=true;document.getElementById('wch-tag').className='wch-tag tag-hum';document.getElementById('wch-tag').textContent='Atendido por humano';
+  document.getElementById('tkbar').style.display='none';const inp=document.getElementById('wsp-inp');inp.disabled=false;inp.placeholder='Escribí tu respuesta...';inp.focus();
 }
-
-function sendMsg(){
-  const inp=document.getElementById('wsp-inp');
-  if(!inp.value.trim()||inp.disabled)return;
-  const c=document.getElementById('wsp-msgs');
-  const d=document.createElement('div');
-  d.className='msg out';
+function sendWsp(){
+  const inp=document.getElementById('wsp-inp');if(!inp.value.trim()||inp.disabled)return;
+  const c=document.getElementById('wsp-msgs');const d=document.createElement('div');d.className='msg out';
   d.innerHTML=`<div class="mb">${inp.value}</div><div class="ms" style="color:var(--amber-text)">Laura A. <span class="hum-lbl">humano</span></div><div class="mm">ahora</div>`;
-  c.appendChild(d);
-  c.scrollTop=c.scrollHeight;
-  inp.value='';
+  c.appendChild(d);c.scrollTop=c.scrollHeight;inp.value='';
 }
 
 function switchView(view,btn){
-  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
   document.getElementById('sb-adrian').style.display=view==='adrian'?'flex':'none';
   document.getElementById('sb-atencion').style.display=view==='atencion'?'flex':'none';
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   if(view==='adrian'){document.getElementById('panel-a-dashboard').classList.add('active');}
-  else{document.getElementById('panel-c-dashboard').classList.add('active');renderMsgs(0);}
+  else{document.getElementById('panel-c-dashboard').classList.add('active');}
 }
-
 function switchPanel(el){
   const view=el.dataset.view;
   document.querySelectorAll(`.ni[data-view="${view}"]`).forEach(n=>n.classList.remove('active'));
@@ -638,7 +754,6 @@ function switchPanel(el){
   document.getElementById('panel-'+el.dataset.panel).classList.add('active');
   if(el.dataset.panel==='c-whatsapp')renderMsgs(0);
 }
-
 renderMsgs(0);
 </script>
 </body>
