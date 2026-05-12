@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/adrian",
+      "destination": "https://botsconeccion.app.n8n.cloud/webhook-test/estiloaq-adrian"
+    },
+    {
+      "source": "/api/atencion", 
+      "destination": "https://botsconeccion.app.n8n.cloud/webhook-test/estiloaq-atencion"
+    }
+  ]
+}
